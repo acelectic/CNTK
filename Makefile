@@ -9,6 +9,8 @@
 # that provides
 #   BUILDTYPE= One of release or debug
 #     defaults to release
+#   BUILD_VERSION= CNTK version number to be used while building
+#   BUILD_PUBLIC= One of yes or no
 #   MKL_PATH= path to MKLML installation
 #     only needed if MATHLIB=mkl
 #   GDK_INCLUDE_PATH= path to CUDA GDK include path, so $(GDK_INCLUDE_PATH)/nvml.h exists
@@ -271,9 +273,13 @@ ORIGINDIR:='$$ORIGIN'
 # Components VERSION info
 ########################################
 
-CNTK_VERSION := 2.4
-CNTK_VERSION_BANNER := $(CNTK_VERSION)+
-CNTK_COMPONENT_VERSION := 2.4
+CNTK_VERSION := $(BUILD_VERSION)
+CNTK_VERSION_BANNER := $(CNTK_VERSION)
+ifeq ("$(BUILD_PUBLIC)","no")
+CNTK_VERSION_BANNER := $(CNTK_VERSION_BANNER)+
+endif
+
+CNTK_COMPONENT_VERSION := $(CNTK_VERSION)
 ifeq ("$(BUILDTYPE)","debug")
 CNTK_COMPONENT_VERSION := $(CNTK_COMPONENT_VERSION)d
 endif
